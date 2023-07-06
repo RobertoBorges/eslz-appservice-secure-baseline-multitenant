@@ -107,7 +107,7 @@ For more recommendations and information, see [Azure SQL Security Baseline](http
 
 For more recommendations and information, see [Azure Redis Cache Security Baseline](https://learn.microsoft.com/en-us/security/benchmark/azure/baselines/azure-cache-for-redis-security-baseline)
 # Deploy this scenario
-Deploy this reference architecture using this [Azure sample on GitHub](/scenarios/secure-baseline-multitenant/README.md).
+Deploy this reference architecture using this [Azure sample on GitHub](/README.md).
 
 - Azure AD, Azure AD B2C, and Azure DNS aren't deployed by this sample.
 - Custom domain names and TLS/SSL certificates aren't created and configured. Default frontend DNS names are used instead.

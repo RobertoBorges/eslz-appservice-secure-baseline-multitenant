@@ -54,7 +54,7 @@ resource keyvault 'Microsoft.KeyVault/vaults@2022-11-01' existing = {
   name: keyvaultName
 }
 
-module vmWindows '../../../shared/bicep/compute/jumphost-win11.bicep' = {
+module vmWindows '../../shared/bicep/compute/jumphost-win11.bicep' = {
   name: 'vmWindows-Deployment'
   params: {
     name:  vmWindowsJumpboxName 
@@ -76,7 +76,7 @@ module vmWindows '../../../shared/bicep/compute/jumphost-win11.bicep' = {
   }
 }
 
-module vmJumpHostUserAssignedManagedIdentity '../../../shared/bicep/managed-identity.bicep' = {
+module vmJumpHostUserAssignedManagedIdentity '../../shared/bicep/managed-identity.bicep' = {
   name: 'vmJumpHostUserAssignedManagedIdenity-Deployment'
   params: {
     name: vmJumpHostUserAssignedManagedIdentityName
@@ -85,7 +85,7 @@ module vmJumpHostUserAssignedManagedIdentity '../../../shared/bicep/managed-iden
   }
 }
 
-module vmJumpHostIdentityOnKeyvaultSecretsOfficer '../../../shared/bicep/role-assignments/role-assignment.bicep' = {
+module vmJumpHostIdentityOnKeyvaultSecretsOfficer '../../shared/bicep/role-assignments/role-assignment.bicep' = {
   name: 'vmJumpHostIdentityOnKeyvaultSecretsOfficer-Deployment'
   params: {
     name: 'ra-vmJumpHostIdentityOnKeyvaultSecretsOfficer'
@@ -95,7 +95,7 @@ module vmJumpHostIdentityOnKeyvaultSecretsOfficer '../../../shared/bicep/role-as
   }
 }
 
-module vmJumpHostIdentityOnKeyvaultCertificateOfficer '../../../shared/bicep/role-assignments/role-assignment.bicep' = {
+module vmJumpHostIdentityOnKeyvaultCertificateOfficer '../../shared/bicep/role-assignments/role-assignment.bicep' = {
   name: 'vmJumpHostIdentityOnKeyvaultCertificateOfficer-Deployment'
   params: {
     name: 'ra-vmJumpHostIdentityOnKeyvaultCertificateOfficer'
@@ -105,7 +105,7 @@ module vmJumpHostIdentityOnKeyvaultCertificateOfficer '../../../shared/bicep/rol
   }
 }
 
-module vmJumpHostIdentityOnAppConfigDataOwner '../../../shared/bicep/role-assignments/role-assignment.bicep' = if ( !empty(appConfigStoreId) ) {
+module vmJumpHostIdentityOnAppConfigDataOwner '../../shared/bicep/role-assignments/role-assignment.bicep' = if ( !empty(appConfigStoreId) ) {
   name: 'vmJumpHostIdentityOnAppConfigDataOwner-Deployment'
   params: {
     name: 'ra-vmJumpHostIdentityOnAppConfigDataOwner'

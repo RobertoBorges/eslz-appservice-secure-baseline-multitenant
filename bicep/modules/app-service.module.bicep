@@ -71,7 +71,7 @@ resource keyvault 'Microsoft.KeyVault/vaults@2022-11-01' existing = {
   name: keyvaultName
 }
 
-module appInsights '../../../shared/bicep/app-insights.bicep' = {
+module appInsights '../../shared/bicep/app-insights.bicep' = {
   name: 'appInsights-Deployment'
   params: {
     name: 'appi-${webAppName}'
@@ -81,7 +81,7 @@ module appInsights '../../../shared/bicep/app-insights.bicep' = {
   }
 }
 
-module asp '../../../shared/bicep/app-services/app-service-plan.bicep' = {
+module asp '../../shared/bicep/app-services/app-service-plan.bicep' = {
   name: take('appSvcPlan-${appServicePlanName}-Deployment', 64)
   params: {
     name: appServicePlanName
@@ -93,7 +93,7 @@ module asp '../../../shared/bicep/app-services/app-service-plan.bicep' = {
   }
 }
 
-module webApp '../../../shared/bicep/app-services/web-app.bicep' = {
+module webApp '../../shared/bicep/app-services/web-app.bicep' = {
   name: take('${webAppName}-webApp-Deployment', 64)
   params: {
     kind: (webAppBaseOs =~ 'linux') ? 'app,linux' : 'app'
@@ -140,7 +140,7 @@ resource webappConnectionstring 'Microsoft.Web/sites/config@2019-08-01' = if ( !
   ]
 }
 
-module webAppUserAssignedManagedIdenity '../../../shared/bicep/managed-identity.bicep' = {
+module webAppUserAssignedManagedIdenity '../../shared/bicep/managed-identity.bicep' = {
   name: 'appSvcUserAssignedManagedIdenity-Deployment'
   params: {
     name: managedIdentityName
@@ -149,7 +149,7 @@ module webAppUserAssignedManagedIdenity '../../../shared/bicep/managed-identity.
   }
 }
 
-module webAppPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module webAppPrivateDnsZone '../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   // conditional scope is not working: https://github.com/Azure/bicep/issues/7367
   //scope: empty(vnetHubResourceId) ? resourceGroup() : resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4]) 
   scope: resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4])
@@ -161,7 +161,7 @@ module webAppPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = if 
   }
 }
 
-module peWebApp '../../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module peWebApp '../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   name:  take('pe-${webAppName}-Deployment', 64)
   params: {
     name: take('pe-${webApp.outputs.name}', 64)
@@ -174,7 +174,7 @@ module peWebApp '../../../shared/bicep/private-endpoint.bicep' = if ( !empty(sub
   }
 }
 
-module peWebAppSlot '../../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module peWebAppSlot '../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   name:  take('pe-${webAppName}-slot-${slotName}-Deployment', 64)
   params: {
     name: take('pe-${webAppName}-slot-${slotName}', 64)
@@ -188,7 +188,7 @@ module peWebAppSlot '../../../shared/bicep/private-endpoint.bicep' = if ( !empty
 }
 
 
-module appConfigStore '../../../shared/bicep/app-configuration.bicep' = if (deployAppConfig) {
+module appConfigStore '../../shared/bicep/app-configuration.bicep' = if (deployAppConfig) {
   name: take('${appConfigurationName}-app-configuration-Deployment', 64)
   params: {   
     name: appConfigurationName
@@ -216,7 +216,7 @@ module appConfigStore '../../../shared/bicep/app-configuration.bicep' = if (depl
 //   ]
 // }
 
-module azConfigPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) && deployAppConfig ) {
+module azConfigPrivateDnsZone '../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) && deployAppConfig ) {
   // conditional scope is not working: https://github.com/Azure/bicep/issues/7367
   //scope: empty(vnetHubResourceId) ? resourceGroup() : resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4]) 
   scope: resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4])
@@ -227,7 +227,7 @@ module azConfigPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = i
     tags: tags
   }
 }
-module peAzConfig '../../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId)  && deployAppConfig) {
+module peAzConfig '../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId)  && deployAppConfig) {
   name: take('pe-${appConfigurationName}-Deployment', 64)
   params: {
     name: ( !empty(subnetPrivateEndpointId)  && deployAppConfig) ? 'pe-${appConfigStore.outputs.name}' : ''
@@ -241,7 +241,7 @@ module peAzConfig '../../../shared/bicep/private-endpoint.bicep' = if ( !empty(s
 }
 
 
-module webAppIdentityOnAppConfigDataReader '../../../shared/bicep/role-assignments/role-assignment.bicep' = if ( deployAppConfig ) {
+module webAppIdentityOnAppConfigDataReader '../../shared/bicep/role-assignments/role-assignment.bicep' = if ( deployAppConfig ) {
   name: 'webAppSystemIdentityOnAppConfigDataReader-Deployment'
   params: {
     name: 'ra-webAppSystemIdentityOnAppConfigDataReader'
@@ -251,7 +251,7 @@ module webAppIdentityOnAppConfigDataReader '../../../shared/bicep/role-assignmen
   }
 }
 
-module webAppIdentityOnKeyvaultSecretsUser '../../../shared/bicep/role-assignments/role-assignment.bicep' = {
+module webAppIdentityOnKeyvaultSecretsUser '../../shared/bicep/role-assignments/role-assignment.bicep' = {
   name: 'webAppSystemIdentityOnKeyvaultSecretsUser-Deployment'
   params: {
     name: 'ra-webAppSystemIdentityOnKeyvaultSecretsUser'
@@ -261,7 +261,7 @@ module webAppIdentityOnKeyvaultSecretsUser '../../../shared/bicep/role-assignmen
   }
 }
 
-module webAppStagingSlotSystemIdentityOnAppConfigDataReader '../../../shared/bicep/role-assignments/role-assignment.bicep' = if ( deployAppConfig ) {
+module webAppStagingSlotSystemIdentityOnAppConfigDataReader '../../shared/bicep/role-assignments/role-assignment.bicep' = if ( deployAppConfig ) {
   name: 'webAppStagingSlotSystemIdentityOnAppConfigDataReader-Deployment'
   params: {
     name: 'ra-webAppStagingSlotSystemIdentityOnAppConfigDataReader'
@@ -271,7 +271,7 @@ module webAppStagingSlotSystemIdentityOnAppConfigDataReader '../../../shared/bic
   }
 }
 
-module webAppStagingSlotSystemIdentityOnKeyvaultSecretsUser '../../../shared/bicep/role-assignments/role-assignment.bicep' = {
+module webAppStagingSlotSystemIdentityOnKeyvaultSecretsUser '../../shared/bicep/role-assignments/role-assignment.bicep' = {
   name: 'webAppStagingSlotSystemIdentityOnKeyvaultSecretsUser-Deployment'
   params: {
     name: 'ra-webAppStagingSlotSystemIdentityOnKeyvaultSecretsUser'

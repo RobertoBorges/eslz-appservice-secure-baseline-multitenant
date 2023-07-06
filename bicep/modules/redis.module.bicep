@@ -28,7 +28,7 @@ var vnetHubSplitTokens = !empty(vnetHubResourceId) ? split(vnetHubResourceId, '/
 
 var redisCacheDnsZoneName = 'privatelink.redis.cache.windows.net'
 
-module redis '../../../shared/bicep/databases/redis.bicep' = {
+module redis '../../shared/bicep/databases/redis.bicep' = {
   name: take('${name}-redis-deployment', 64)
   params: {
     name: name
@@ -41,7 +41,7 @@ module redis '../../../shared/bicep/databases/redis.bicep' = {
 }
 
 
-module redisPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module redisPrivateDnsZone '../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   // condiotional scope is not working: https://github.com/Azure/bicep/issues/7367
   //scope: empty(vnetHubResourceId) ? resourceGroup() : resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4]) 
   scope: resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4])
@@ -53,7 +53,7 @@ module redisPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = if (
   }
 }
 
-module peRedis '../../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module peRedis '../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   name: take('pe-${name}-Deployment', 64)
   params: {
     name: take('pe-${redis.outputs.name}', 64)

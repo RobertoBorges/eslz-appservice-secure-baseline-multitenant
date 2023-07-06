@@ -36,7 +36,7 @@ param vnetHubResourceId string
 var vnetHubSplitTokens = !empty(vnetHubResourceId) ? split(vnetHubResourceId, '/') : array('')
 var sqlDnsZoneName = 'privatelink${environment().suffixes.sqlServerHostname}'
 
-module sqlDbAndServer '../../../shared/bicep/databases/sql.bicep' = {
+module sqlDbAndServer '../../shared/bicep/databases/sql.bicep' = {
   name: 'sqlDbAndServer-${name}-Deployment'
   params: {
     name: name
@@ -50,7 +50,7 @@ module sqlDbAndServer '../../../shared/bicep/databases/sql.bicep' = {
   }
 }
 
-module sqlServerPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module sqlServerPrivateDnsZone '../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   // conditional scope is not working: https://github.com/Azure/bicep/issues/7367
   //scope: empty(vnetHubResourceId) ? resourceGroup() : resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4]) 
   scope: resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4])
@@ -62,7 +62,7 @@ module sqlServerPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = 
   }
 }
 
-module peSqlServer '../../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module peSqlServer '../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   name: take('pe-${name}-Deployment', 64)
   params: {
     name: take('pe-${sqlDbAndServer.outputs.sqlServerName}', 64)

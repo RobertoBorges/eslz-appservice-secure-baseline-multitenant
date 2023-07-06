@@ -187,7 +187,7 @@ resource vnetHub  'Microsoft.Network/virtualNetworks@2022-07-01' existing = {
   name: vnetHubSplitTokens[8]
 }
 
-module vnetSpoke '../../shared/bicep/network/vnet.bicep' = {
+module vnetSpoke '../shared/bicep/network/vnet.bicep' = {
   name: 'vnetSpoke-Deployment'
   params: {    
     name: resourceNames.vnetSpoke
@@ -199,7 +199,7 @@ module vnetSpoke '../../shared/bicep/network/vnet.bicep' = {
 }
 
 
-module routeTableToFirewall '../../shared/bicep/network/udr.bicep' = if (!empty(firewallInternalIp) &&  (enableEgressLockdown) ) {
+module routeTableToFirewall '../shared/bicep/network/udr.bicep' = if (!empty(firewallInternalIp) &&  (enableEgressLockdown) ) {
   name: 'routeTableToFirewall-Deployment'
   params: {
     name: resourceNames.routeTable
@@ -221,7 +221,7 @@ resource snetPe 'Microsoft.Network/virtualNetworks/subnets@2022-07-01' existing 
   name: '${vnetSpoke.outputs.vnetName}/${resourceNames.snetPe}'
 }
 
-module logAnalyticsWs '../../shared/bicep/log-analytics-ws.bicep' = {
+module logAnalyticsWs '../shared/bicep/log-analytics-ws.bicep' = {
   name: 'logAnalyticsWs-Deployment'
   params: {
     name: resourceNames.logAnalyticsWs
@@ -266,7 +266,7 @@ module webApp 'modules/app-service.module.bicep' = {
   }
 }
 
-module afd '../../shared/bicep/network/front-door.bicep' = {
+module afd '../shared/bicep/network/front-door.bicep' = {
   name: take ('AzureFrontDoor-${resourceNames.frontDoor}-deployment', 64)
   params: {
     afdName: resourceNames.frontDoor

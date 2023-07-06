@@ -114,7 +114,7 @@ resource "azurecaf_name" "webapp" {
 }
 
 module "private_endpoint" {
-  source                         = "../../../shared/private-endpoint"
+  source                         = "../../shared/private-endpoint"
 
   name                           = azurecaf_name.webapp.result
   resource_group                 = var.resource_group
@@ -161,7 +161,7 @@ resource "azurecaf_name" "slot" {
 }
 
 module "private_endpoint_slot" {
-  source                         = "../../../shared/private-endpoint"
+  source                         = "../../shared/private-endpoint"
 
   name                           = azurecaf_name.slot.result
   resource_group                 = var.resource_group

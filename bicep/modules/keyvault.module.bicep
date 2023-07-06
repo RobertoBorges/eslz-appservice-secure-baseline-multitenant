@@ -21,7 +21,7 @@ var vnetHubSplitTokens = !empty(vnetHubResourceId) ? split(vnetHubResourceId, '/
 
 var keyvaultDnsZoneName = 'privatelink.vaultcore.azure.net'
 
-module keyvault '../../../shared/bicep/keyvault.bicep' = {
+module keyvault '../../shared/bicep/keyvault.bicep' = {
   name: 'keyvaultDeployment'
   params: {
     name: name
@@ -32,7 +32,7 @@ module keyvault '../../../shared/bicep/keyvault.bicep' = {
   }
 }
 
-module keyvaultPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module keyvaultPrivateDnsZone '../../shared/bicep/private-dns-zone.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   // condiotional scope is not working: https://github.com/Azure/bicep/issues/7367
   //scope: empty(vnetHubResourceId) ? resourceGroup() : resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4]) 
   scope: resourceGroup(vnetHubSplitTokens[2], vnetHubSplitTokens[4])
@@ -44,7 +44,7 @@ module keyvaultPrivateDnsZone '../../../shared/bicep/private-dns-zone.bicep' = i
   }
 }
 
-module peKeyvault '../../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
+module peKeyvault '../../shared/bicep/private-endpoint.bicep' = if ( !empty(subnetPrivateEndpointId) ) {
   name: 'peKeyvaultDeployment'
   params: {
     name: take('pe-${keyvault.outputs.keyvaultName}', 64)

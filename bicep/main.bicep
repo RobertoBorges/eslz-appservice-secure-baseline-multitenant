@@ -147,7 +147,7 @@ var enableTelemetry = true
 // Resources        //
 // ================ //
 
-module naming '../../shared/bicep/naming.module.bicep' = {
+module naming '../shared/bicep/naming.module.bicep' = {
   scope: resourceGroup(spokeResourceGroup.name)
   name: 'namingModule-Deployment'
   params: {

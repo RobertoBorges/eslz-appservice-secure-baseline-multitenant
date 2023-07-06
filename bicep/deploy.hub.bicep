@@ -67,7 +67,7 @@ var subnets = [
 ]
 
 
-module vnetHub '../../shared/bicep/network/vnet.bicep' = {
+module vnetHub '../shared/bicep/network/vnet.bicep' = {
   name: 'vnetHub-Deployment'
   params: {
     location: location
@@ -78,7 +78,7 @@ module vnetHub '../../shared/bicep/network/vnet.bicep' = {
   }
 }
 
-module bastionSvc '../../shared/bicep/network/bastion.bicep' = {
+module bastionSvc '../shared/bicep/network/bastion.bicep' = {
   name: 'bastionSvc-Deployment'
   params: {
     location: location
@@ -89,7 +89,7 @@ module bastionSvc '../../shared/bicep/network/bastion.bicep' = {
   }
 }
 
-module laws '../../shared/bicep/log-analytics-ws.bicep' = {
+module laws '../shared/bicep/log-analytics-ws.bicep' = {
   name: 'laws-Deployment'
   params: {
     location: location
@@ -398,7 +398,7 @@ var networkRules =  [
     ]
 
     
-module azFw '../../shared/bicep/network/firewall.bicep' = {
+module azFw '../shared/bicep/network/firewall.bicep' = {
   name: 'azFW-Deployment'
   params: {
     location: location
@@ -411,7 +411,7 @@ module azFw '../../shared/bicep/network/firewall.bicep' = {
   }
 }
 
-// module privateDnsZoneAppConfig  '../../shared/bicep/private-dns-zone.bicep' = {
+// module privateDnsZoneAppConfig  '../shared/bicep/private-dns-zone.bicep' = {
 //   name: 'privateDnsZoneAppConfigDeployment'
 //   params: {
 //     name: privateDnsZoneNames.appConfiguration
@@ -420,7 +420,7 @@ module azFw '../../shared/bicep/network/firewall.bicep' = {
 //   }
 // }
 
-// module privateDnsKeyvault  '../../shared/bicep/private-dns-zone.bicep' = {
+// module privateDnsKeyvault  '../shared/bicep/private-dns-zone.bicep' = {
 //   name: 'privateDnsKeyvaultDeployment'
 //   params: {
 //     name: privateDnsZoneNames.keyvault
@@ -429,7 +429,7 @@ module azFw '../../shared/bicep/network/firewall.bicep' = {
 //   }
 // }
 
-// module privateDnsRedis  '../../shared/bicep/private-dns-zone.bicep' = {
+// module privateDnsRedis  '../shared/bicep/private-dns-zone.bicep' = {
 //   name: 'privateDnsRedisDeployment'
 //   params: {
 //     name: privateDnsZoneNames.redis
@@ -438,7 +438,7 @@ module azFw '../../shared/bicep/network/firewall.bicep' = {
 //   }
 // }
 
-// module privateDnsZoneSql  '../../shared/bicep/private-dns-zone.bicep' = {
+// module privateDnsZoneSql  '../shared/bicep/private-dns-zone.bicep' = {
 //   name: 'privateDnsZoneSqlDeployment'
 //   params: {
 //     name: privateDnsZoneNames.sqlDb
@@ -447,7 +447,7 @@ module azFw '../../shared/bicep/network/firewall.bicep' = {
 //   }
 // }
 
-// module privateDnsWebApps  '../../shared/bicep/private-dns-zone.bicep' = {
+// module privateDnsWebApps  '../shared/bicep/private-dns-zone.bicep' = {
 //   name: 'privateDnsWebAppsDeployment'
 //   params: {
 //     name: privateDnsZoneNames.webApps
